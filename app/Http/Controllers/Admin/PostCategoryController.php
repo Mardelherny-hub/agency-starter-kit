@@ -1,0 +1,63 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Domain\Blog\Services\PostCategoryCrudService;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\StorePostCategoryRequest;
+use App\Http\Requests\Admin\UpdatePostCategoryRequest;
+
+class PostCategoryController extends Controller
+{
+    public function __construct(
+        protected PostCategoryCrudService $categoryCrudService
+    ) {
+        $this->middleware('permission:posts.view')->only(['index', 'show']);
+        $this->middleware('permission:posts.create')->only(['create', 'store']);
+        $this->middleware('permission:posts.edit')->only(['edit', 'update']);
+        $this->middleware('permission:posts.delete')->only('destroy');
+    }
+
+    public function index()
+    {
+        $categories = $this->categoryCrudService->paginate();
+        return view('admin.post-categories.index', compact('categories'));
+    }
+
+    public function create()
+    {
+        return view('admin.post-categories.create');
+    }
+
+    public function store(StorePostCategoryRequest $request)
+    {
+        $this->categoryCrudService->create($request->validated());
+        return redirect()->route('admin.post-categories.index')->with('success', 'Category created successfully.');
+    }
+
+    public function show(int $id)
+    {
+        $category = $this->categoryCrudService->findOrFail($id);
+        return view('admin.post-categories.show', compact('category'));
+    }
+
+    public function edit(int $id)
+    {
+        $category = $this->categoryCrudService->findOrFail($id);
+        return view('admin.post-categories.edit', compact('category'));
+    }
+
+    public function update(UpdatePostCategoryRequest $request, int $id)
+    {
+        $category = $this->categoryCrudService->findOrFail($id);
+        $this->categoryCrudService->update($category, $request->validated());
+        return redirect()->route('admin.post-categories.index')->with('success', 'Category updated successfully.');
+    }
+
+    public function destroy(int $id)
+    {
+        $category = $this->categoryCrudService->findOrFail($id);
+        $this->categoryCrudService->delete($category);
+        return redirect()->route('admin.post-categories.index')->with('success', 'Category deleted successfully.');
+    }
+}

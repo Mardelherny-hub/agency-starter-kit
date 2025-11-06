@@ -2,6 +2,7 @@
 
 use App\Livewire\Forms\LoginForm;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Layout;
 use Livewire\Volt\Component;
 
@@ -20,7 +21,14 @@ new #[Layout('layouts.guest')] class extends Component
 
         Session::regenerate();
 
-        $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+        // Redirect según permisos
+        $user = Auth::user();
+        
+        if ($user->can('services.view') || $user->can('posts.view') || $user->can('users.view')) {
+            $this->redirect(route('admin.dashboard', absolute: false), navigate: true);
+        } else {
+            $this->redirect(route('dashboard', absolute: false), navigate: true);
+        }
     }
 }; ?>
 
