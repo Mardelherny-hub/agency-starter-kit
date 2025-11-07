@@ -37,11 +37,19 @@ abstract class BaseCrudService
     /**
      * Get paginated records.
      */
-    public function paginate(?int $perPage = null): LengthAwarePaginator
+    public function paginate(?int $perPage = null, array $filters = []): LengthAwarePaginator
     {
         $perPage = $perPage ?? config('starter.pagination.default_per_page', 15);
+        
+        $query = $this->model->query();
+        $query = $this->applyFilters($query, $filters);
+        
+        return $query->paginate($perPage);
+    }
 
-        return $this->model->paginate($perPage);
+    protected function applyFilters($query, array $filters = [])
+    {
+        return $query;
     }
 
     /**

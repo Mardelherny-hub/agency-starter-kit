@@ -13,10 +13,7 @@ class ProjectController extends Controller
     public function __construct(
         protected ProjectCrudService $projectCrudService
     ) {
-        $this->middleware('permission:projects.view')->only(['index', 'show']);
-        $this->middleware('permission:projects.create')->only(['create', 'store']);
-        $this->middleware('permission:projects.edit')->only(['edit', 'update']);
-        $this->middleware('permission:projects.delete')->only('destroy');
+
     }
 
     public function index(Request $request)
@@ -27,7 +24,15 @@ class ProjectController extends Controller
 
     public function create()
     {
-        return view('admin.projects.create');
+        $categories = \App\Domain\Portfolio\Models\ProjectCategory::ordered()->get();
+        return view('admin.projects.create', compact('categories'));
+    }
+
+    public function edit(int $id)
+    {
+        $project = $this->projectCrudService->findOrFail($id);
+        $categories = \App\Domain\Portfolio\Models\ProjectCategory::ordered()->get();
+        return view('admin.projects.edit', compact('project', 'categories'));
     }
 
     public function store(StoreProjectRequest $request)
@@ -40,12 +45,6 @@ class ProjectController extends Controller
     {
         $project = $this->projectCrudService->findOrFail($id);
         return view('admin.projects.show', compact('project'));
-    }
-
-    public function edit(int $id)
-    {
-        $project = $this->projectCrudService->findOrFail($id);
-        return view('admin.projects.edit', compact('project'));
     }
 
     public function update(UpdateProjectRequest $request, int $id)

@@ -13,10 +13,7 @@ class ServiceController extends Controller
     public function __construct(
         protected ServiceCrudService $serviceCrudService
     ) {
-        $this->middleware('permission:services.view')->only(['index', 'show']);
-        $this->middleware('permission:services.create')->only(['create', 'store']);
-        $this->middleware('permission:services.edit')->only(['edit', 'update']);
-        $this->middleware('permission:services.delete')->only('destroy');
+
     }
 
     public function index(Request $request)
@@ -27,7 +24,7 @@ class ServiceController extends Controller
             'status' => $request->input('status'),
         ];
 
-        $services = $this->serviceCrudService->paginate();
+        $services = $this->serviceCrudService->paginate(15, $filters);
 
         return view('admin.services.index', compact('services'));
     }

@@ -11,8 +11,7 @@ class ContactMessageController extends Controller
     public function __construct(
         protected ContactMessageCrudService $messageCrudService
     ) {
-        $this->middleware('permission:messages.view')->only(['index', 'show']);
-        $this->middleware('permission:messages.delete')->only('destroy');
+       
     }
 
     public function index(Request $request)

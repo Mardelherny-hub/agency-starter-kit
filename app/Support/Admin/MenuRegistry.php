@@ -8,15 +8,21 @@ class MenuRegistry
 
     public static function register(string $key, array $config): void
     {
-        static::$items[$key] = array_merge([
+        $defaults = [
             'label' => '',
             'route' => '',
             'icon' => 'heroicon-o-document',
             'permission' => null,
             'order' => 999,
             'badge' => null,
-            'children' => [],
-        ], $config);
+        ];
+        
+        // Solo agregar 'children' si existe en $config
+        if (isset($config['children'])) {
+            $defaults['children'] = [];
+        }
+        
+        static::$items[$key] = array_merge($defaults, $config);
     }
 
     public static function all(): array

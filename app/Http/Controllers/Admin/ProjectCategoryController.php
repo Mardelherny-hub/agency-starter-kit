@@ -12,10 +12,7 @@ class ProjectCategoryController extends Controller
     public function __construct(
         protected ProjectCategoryCrudService $categoryCrudService
     ) {
-        $this->middleware('permission:projects.view')->only(['index', 'show']);
-        $this->middleware('permission:projects.create')->only(['create', 'store']);
-        $this->middleware('permission:projects.edit')->only(['edit', 'update']);
-        $this->middleware('permission:projects.delete')->only('destroy');
+
     }
 
     public function index()

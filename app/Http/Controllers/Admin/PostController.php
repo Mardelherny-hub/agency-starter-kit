@@ -13,10 +13,7 @@ class PostController extends Controller
     public function __construct(
         protected PostCrudService $postCrudService
     ) {
-        $this->middleware('permission:posts.view')->only(['index', 'show']);
-        $this->middleware('permission:posts.create')->only(['create', 'store']);
-        $this->middleware('permission:posts.edit')->only(['edit', 'update']);
-        $this->middleware('permission:posts.delete')->only('destroy');
+
     }
 
     public function index(Request $request)
@@ -27,7 +24,8 @@ class PostController extends Controller
 
     public function create()
     {
-        return view('admin.posts.create');
+        $categories = \App\Domain\Blog\Models\PostCategory::ordered()->get();
+        return view('admin.posts.create', compact('categories'));
     }
 
     public function store(StorePostRequest $request)
@@ -48,7 +46,8 @@ class PostController extends Controller
     public function edit(int $id)
     {
         $post = $this->postCrudService->findOrFail($id);
-        return view('admin.posts.edit', compact('post'));
+        $categories = \App\Domain\Blog\Models\PostCategory::ordered()->get();
+        return view('admin.posts.edit', compact('post', 'categories'));
     }
 
     public function update(UpdatePostRequest $request, int $id)

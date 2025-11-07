@@ -13,10 +13,7 @@ class PageController extends Controller
     public function __construct(
         protected PageCrudService $pageCrudService
     ) {
-        $this->middleware('permission:pages.view')->only(['index', 'show']);
-        $this->middleware('permission:pages.create')->only(['create', 'store']);
-        $this->middleware('permission:pages.edit')->only(['edit', 'update']);
-        $this->middleware('permission:pages.delete')->only('destroy');
+       
     }
 
     public function index(Request $request)
