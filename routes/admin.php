@@ -31,6 +31,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     
     // Portfolio
     Route::resource('projects', ProjectController::class);
+    Route::delete('projects/{project}/media/{media}', [ProjectController::class, 'deleteMedia'])->name('projects.media.delete');
     Route::resource('project-categories', ProjectCategoryController::class);
     
     // Blog

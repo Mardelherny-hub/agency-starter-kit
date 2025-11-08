@@ -37,6 +37,16 @@ class ServiceController extends Controller
     public function store(StoreServiceRequest $request)
     {
         $service = $this->serviceCrudService->create($request->validated());
+        
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $service->addMediaFromRequest('image')->toMediaCollection('image');
+        }
+        
+        // Handle icon upload
+        if ($request->hasFile('icon')) {
+            $service->addMediaFromRequest('icon')->toMediaCollection('icon');
+        }
 
         return redirect()
             ->route('admin.services.index')
@@ -61,6 +71,18 @@ class ServiceController extends Controller
     {
         $service = $this->serviceCrudService->findOrFail($id);
         $this->serviceCrudService->update($service, $request->validated());
+        
+        // Handle image upload
+        if ($request->hasFile('image')) {
+            $service->clearMediaCollection('image');
+            $service->addMediaFromRequest('image')->toMediaCollection('image');
+        }
+        
+        // Handle icon upload
+        if ($request->hasFile('icon')) {
+            $service->clearMediaCollection('icon');
+            $service->addMediaFromRequest('icon')->toMediaCollection('icon');
+        }
 
         return redirect()
             ->route('admin.services.index')

@@ -34,6 +34,20 @@
                     rows="10"
                 />
 
+                 <x-admin.file-upload
+                    label="Featured Image"
+                    name="image"
+                    accept="image/jpeg,image/png,image/jpg,image/webp"
+                    :current="$service->getFirstMediaUrl('image')"
+                />
+
+                <x-admin.file-upload
+                    label="Icon"
+                    name="icon_file"
+                    accept="image/jpeg,image/png,image/jpg,image/svg+xml,image/webp"
+                    :current="$service->getFirstMediaUrl('icon')"
+                />
+
                 <x-admin.form-input
                     label="Icon"
                     name="icon"

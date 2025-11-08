@@ -3,7 +3,7 @@
 
     <div class="max-w-4xl">
         <div class="bg-white rounded-lg shadow p-6">
-            <form method="POST" action="{{ route('admin.services.store') }}">
+            <form method="POST" action="{{ route('admin.services.store') }}" enctype="multipart/form-data">
                 @csrf
 
                 <x-admin.form-input
@@ -30,8 +30,20 @@
                     rows="10"
                 />
 
-                <x-admin.form-input
+                <x-admin.file-upload
+                    label="Featured Image"
+                    name="image"
+                    accept="image/jpeg,image/png,image/jpg,image/webp"
+                />
+
+                <x-admin.file-upload
                     label="Icon"
+                    name="icon_file"
+                    accept="image/jpeg,image/png,image/jpg,image/svg+xml,image/webp"
+                />
+
+                <x-admin.form-input
+                    label="Icon Class"
                     name="icon"
                     placeholder="e.g., fa-cog, heroicon-o-cog"
                 />

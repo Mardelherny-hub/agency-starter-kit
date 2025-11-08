@@ -11,13 +11,18 @@ class UpdateServiceRequest extends FormRequest
         return $this->user()->can('services.edit');
     }
 
-    public function rules(): array
+   public function rules(): array
     {
+        $serviceId = $this->route('service');
+        
         return [
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string|max:500',
+            'slug' => 'nullable|string|max:255|unique:services,slug,' . $serviceId,
+            'description' => 'nullable|string',
             'content' => 'nullable|string',
             'icon' => 'nullable|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'icon_file' => 'nullable|image|mimes:jpeg,png,jpg,svg,webp|max:1024',
             'featured' => 'boolean',
             'order' => 'integer|min:0',
             'published_at' => 'nullable|date',

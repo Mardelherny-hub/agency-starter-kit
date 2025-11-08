@@ -37,8 +37,23 @@ class ProjectController extends Controller
 
     public function store(StoreProjectRequest $request)
     {
-        $this->projectCrudService->create($request->validated());
-        return redirect()->route('admin.projects.index')->with('success', 'Project created successfully.');
+        $project = $this->projectCrudService->create($request->validated());
+        
+        // Handle featured image upload
+        if ($request->hasFile('featured_image')) {
+            $project->addMediaFromRequest('featured_image')->toMediaCollection('featured_image');
+        }
+        
+        // Handle gallery images upload (multiple)
+        if ($request->hasFile('gallery')) {
+            foreach ($request->file('gallery') as $image) {
+                $project->addMedia($image)->toMediaCollection('gallery');
+            }
+        }
+
+        return redirect()
+            ->route('admin.projects.index')
+            ->with('success', 'Project created successfully.');
     }
 
     public function show(int $id)
@@ -51,7 +66,24 @@ class ProjectController extends Controller
     {
         $project = $this->projectCrudService->findOrFail($id);
         $this->projectCrudService->update($project, $request->validated());
-        return redirect()->route('admin.projects.index')->with('success', 'Project updated successfully.');
+        
+        // Handle featured image upload
+        if ($request->hasFile('featured_image')) {
+            $project->clearMediaCollection('featured_image');
+            $project->addMediaFromRequest('featured_image')->toMediaCollection('featured_image');
+        }
+        
+        // Handle gallery images upload (multiple)
+        if ($request->hasFile('gallery')) {
+            // Note: This ADDS to gallery, doesn't replace
+            foreach ($request->file('gallery') as $image) {
+                $project->addMedia($image)->toMediaCollection('gallery');
+            }
+        }
+
+        return redirect()
+            ->route('admin.projects.index')
+            ->with('success', 'Project updated successfully.');
     }
 
     public function destroy(int $id)
@@ -59,5 +91,22 @@ class ProjectController extends Controller
         $project = $this->projectCrudService->findOrFail($id);
         $this->projectCrudService->delete($project);
         return redirect()->route('admin.projects.index')->with('success', 'Project deleted successfully.');
+    }
+
+    /**
+     * Delete a media item from project gallery
+     */
+    public function deleteMedia(int $projectId, int $mediaId)
+    {
+        $project = $this->projectCrudService->findOrFail($projectId);
+        
+        $media = $project->media()->find($mediaId);
+        
+        if ($media) {
+            $media->delete();
+            return redirect()->back()->with('success', 'Image deleted successfully.');
+        }
+        
+        return redirect()->back()->with('error', 'Image not found.');
     }
 }
