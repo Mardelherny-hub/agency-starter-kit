@@ -108,6 +108,58 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Media Section -->
+            <div class="border-t border-gray-200 pt-4 mt-4">
+                <h4 class="text-sm font-semibold text-gray-900 mb-3">Media</h4>
+                
+                <!-- Featured Image -->
+                <div class="mb-6">
+                    <label class="block text-sm font-medium text-gray-500 mb-2">Featured Image</label>
+                    @if($project->hasMedia('featured_image'))
+                        <img src="{{ $project->getFirstMediaUrl('featured_image') }}" 
+                            alt="{{ $project->title }}" 
+                            class="w-full max-w-2xl h-64 object-cover rounded-lg border border-gray-200">
+                    @else
+                        <div class="w-full max-w-2xl h-64 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-center">
+                            <span class="text-gray-400 text-sm">No featured image uploaded</span>
+                        </div>
+                    @endif
+                </div>
+
+                <!-- Gallery -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-500 mb-2">
+                        Gallery 
+                        @if($project->hasMedia('gallery'))
+                            <span class="text-xs text-gray-400">({{ $project->getMedia('gallery')->count() }} images)</span>
+                        @endif
+                    </label>
+                    
+                    @if($project->hasMedia('gallery'))
+                        <div class="grid grid-cols-4 gap-4">
+                            @foreach($project->getMedia('gallery') as $media)
+                                <div class="relative group">
+                                    <img src="{{ $media->getUrl() }}" 
+                                        alt="Gallery image" 
+                                        class="w-full h-32 object-cover rounded-lg border border-gray-200">
+                                    <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all rounded-lg flex items-center justify-center">
+                                        <a href="{{ $media->getUrl() }}" 
+                                        target="_blank" 
+                                        class="opacity-0 group-hover:opacity-100 text-white text-sm px-3 py-1 bg-indigo-600 rounded">
+                                            View Full
+                                        </a>
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
+                    @else
+                        <div class="w-full h-32 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-center">
+                            <span class="text-gray-400 text-sm">No gallery images uploaded</span>
+                        </div>
+                    @endif
+                </div>
+            </div>
         </div>
     </div>
 </x-admin-layout>

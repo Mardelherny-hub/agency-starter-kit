@@ -4,11 +4,11 @@ namespace App\Http\Requests\Admin;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StorePostRequest extends FormRequest
+class UpdatePostRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->user()->can('posts.create');
+        return $this->user()->can('posts.edit');
     }
 
     public function rules(): array
@@ -22,6 +22,7 @@ class StorePostRequest extends FormRequest
             'meta_title' => 'nullable|string|max:255',
             'meta_description' => 'nullable|string|max:500',
             'published_at' => 'nullable|date',
+            'featured_image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ];
     }
 }

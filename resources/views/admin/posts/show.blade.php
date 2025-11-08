@@ -113,6 +113,38 @@
                     </div>
                 </div>
 
+                <!-- Media Section -->
+                <div class="border-t border-gray-200 pt-4 mt-4">
+                    <h4 class="text-sm font-semibold text-gray-900 mb-3">Featured Image</h4>
+                    
+                    @if($post->hasMedia('featured_image'))
+                        <img src="{{ $post->getFirstMediaUrl('featured_image') }}" 
+                             alt="{{ $post->title }}" 
+                             class="w-full max-w-2xl h-64 object-cover rounded-lg border border-gray-200">
+                    @else
+                        <div class="w-full max-w-2xl h-64 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-center">
+                            <span class="text-gray-400 text-sm">No featured image uploaded</span>
+                        </div>
+                    @endif
+                </div>
+
+                <!-- Dates Section -->
+                <div class="border-t border-gray-200 pt-4 mt-4">
+                    <h4 class="text-sm font-semibold text-gray-900 mb-3">Dates</h4>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-500">Published At</label>
+                            <p class="mt-1 text-sm text-gray-900">{{ $post->published_at ? $post->published_at->format('M d, Y H:i') : 'Not published' }}</p>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-500">Created At</label>
+                            <p class="mt-1 text-sm text-gray-900">{{ $post->created_at->format('M d, Y H:i') }}</p>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="grid grid-cols-2 gap-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-500">Published At</label>

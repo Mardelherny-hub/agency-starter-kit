@@ -36,6 +36,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     
     // Blog
     Route::resource('posts', PostController::class);
+    Route::post('posts/upload-image', [PostController::class, 'uploadContentImage'])->name('posts.upload-image');
     Route::resource('post-categories', PostCategoryController::class);
     
     // Pages

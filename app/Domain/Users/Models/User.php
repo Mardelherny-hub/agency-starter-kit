@@ -92,6 +92,9 @@ class User extends Authenticatable implements HasMedia
             ->singleFile()
             ->useFallbackUrl('/images/default-avatar.png')
             ->useFallbackPath(public_path('/images/default-avatar.png'));
+        
+        // Para imágenes temporales del editor Trix
+        $this->addMediaCollection('temp_images');
     }
 
     /**

@@ -20,6 +20,8 @@
     "dependencies": {
         "@alpinejs/collapse": "^3.15.1",
         "@alpinejs/focus": "^3.15.1",
-        "alpinejs": "^3.15.1"
+        "@rails/actiontext": "^8.1.100",
+        "alpinejs": "^3.15.1",
+        "trix": "^2.1.15"
     }
 }

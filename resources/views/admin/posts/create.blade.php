@@ -3,7 +3,7 @@
 
     <div class="max-w-4xl">
         <div class="bg-white rounded-lg shadow p-6">
-            <form method="POST" action="{{ route('admin.posts.store') }}">
+            <form method="POST" action="{{ route('admin.posts.store') }}" enctype="multipart/form-data">
                 @csrf
 
                 <x-admin.form-select
@@ -36,10 +36,9 @@
                     placeholder="Short description for listings"
                 />
 
-                <x-admin.form-textarea
+                <x-admin.trix-editor
                     label="Content"
                     name="content"
-                    rows="15"
                 />
 
                 <div class="mb-4">
@@ -48,6 +47,12 @@
                         <span class="ml-2 text-sm text-gray-700">Featured Post</span>
                     </label>
                 </div>
+
+                <x-admin.file-upload
+                    label="Featured Image"
+                    name="featured_image"
+                    accept="image/jpeg,image/png,image/jpg,image/webp"
+                />
 
                 <!-- SEO Section -->
                 <div class="border-t border-gray-200 pt-4 mt-6">

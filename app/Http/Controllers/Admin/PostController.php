@@ -18,7 +18,13 @@ class PostController extends Controller
 
     public function index(Request $request)
     {
-        $posts = $this->postCrudService->paginate();
+        // En admin mostramos TODOS los posts (publicados y drafts)
+        $query = \App\Domain\Blog\Models\Post::query()
+            ->with(['author', 'category'])
+            ->latest();
+        
+        $posts = $query->paginate(15);
+        
         return view('admin.posts.index', compact('posts'));
     }
 
@@ -33,7 +39,13 @@ class PostController extends Controller
         $data = $request->validated();
         $data['user_id'] = auth()->id();
         
-        $this->postCrudService->create($data);
+        $post = $this->postCrudService->create($data);
+        
+        // Handle featured image upload
+        if ($request->hasFile('featured_image')) {
+            $post->addMediaFromRequest('featured_image')->toMediaCollection('featured_image');
+        }
+        
         return redirect()->route('admin.posts.index')->with('success', 'Post created successfully.');
     }
 
@@ -54,6 +66,13 @@ class PostController extends Controller
     {
         $post = $this->postCrudService->findOrFail($id);
         $this->postCrudService->update($post, $request->validated());
+        
+        // Handle featured image upload
+        if ($request->hasFile('featured_image')) {
+            $post->clearMediaCollection('featured_image');
+            $post->addMediaFromRequest('featured_image')->toMediaCollection('featured_image');
+        }
+        
         return redirect()->route('admin.posts.index')->with('success', 'Post updated successfully.');
     }
 
@@ -62,5 +81,26 @@ class PostController extends Controller
         $post = $this->postCrudService->findOrFail($id);
         $this->postCrudService->delete($post);
         return redirect()->route('admin.posts.index')->with('success', 'Post deleted successfully.');
+    }
+
+    /**
+     * Upload image from Trix editor.
+     */
+    public function uploadContentImage(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|image|mimes:jpeg,png,jpg,webp,gif|max:2048',
+        ]);
+
+        // Crear un post temporal para almacenar la imagen
+        // O usar el usuario actual como contexto
+        $user = auth()->user();
+        
+        $media = $user->addMedia($request->file('file'))
+            ->toMediaCollection('temp_images');
+
+        return response()->json([
+            'url' => $media->getUrl()
+        ]);
     }
 }

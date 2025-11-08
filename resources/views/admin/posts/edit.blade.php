@@ -3,7 +3,7 @@
 
     <div class="max-w-4xl">
         <div class="bg-white rounded-lg shadow p-6">
-            <form method="POST" action="{{ route('admin.posts.update', $post->id) }}">
+            <form method="POST" action="{{ route('admin.posts.update', $post->id) }}" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -41,11 +41,10 @@
                     placeholder="Short description for listings"
                 />
 
-                <x-admin.form-textarea
+                <x-admin.trix-editor
                     label="Content"
                     name="content"
                     :value="$post->content"
-                    rows="15"
                 />
 
                 <div class="mb-4">
@@ -54,6 +53,13 @@
                         <span class="ml-2 text-sm text-gray-700">Featured Post</span>
                     </label>
                 </div>
+
+                <x-admin.file-upload
+                    label="Featured Image"
+                    name="featured_image"
+                    accept="image/jpeg,image/png,image/jpg,image/webp"
+                    :current="$post->getFirstMediaUrl('featured_image')"
+                />
 
                 <!-- SEO Section -->
                 <div class="border-t border-gray-200 pt-4 mt-6">
@@ -80,6 +86,7 @@
                     name="published_at"
                     type="datetime-local"
                     :value="$post->published_at ? $post->published_at->format('Y-m-d\TH:i') : ''"
+                    placeholder="Leave empty for draft"
                 />
 
                 <div class="flex space-x-3">
@@ -89,16 +96,15 @@
 
                     <a href="{{ route('admin.posts.index') }}" class="inline-flex items-center px-4 py-2 bg-gray-300 hover:bg-gray-400 text-gray-800 rounded-lg text-sm font-medium transition">
                         Cancel
-                    </a>
-
-                    <form method="POST" action="{{ route('admin.posts.destroy', $post->id) }}" onsubmit="return confirm('Are you sure?')" class="ml-auto">
-                        @csrf
-                        @method('DELETE')
-                        <x-admin.button type="submit" variant="danger">
-                            Delete Post
-                        </x-admin.button>
-                    </form>
+                    </a>                    
                 </div>
+            </form>
+            <form method="POST" action="{{ route('admin.posts.destroy', $post->id) }}" onsubmit="return confirm('Are you sure?')" class="mt-4">
+                @csrf
+                @method('DELETE')
+                <x-admin.button type="submit" variant="danger">
+                    Delete Post
+                </x-admin.button>
             </form>
         </div>
     </div>

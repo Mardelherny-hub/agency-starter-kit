@@ -40,12 +40,43 @@
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-sm font-medium text-gray-500">Icon</label>
-                        <p class="mt-1 text-sm text-gray-900">{{ $service->icon ?? '-' }}</p>
-                    </div>
+               <!-- Media Section -->
+                <div class="border-t border-gray-200 pt-4 mt-4">
+                    <h4 class="text-sm font-semibold text-gray-900 mb-3">Media</h4>
+                    
+                    <div class="grid grid-cols-2 gap-6">
+                        <!-- Featured Image -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-500 mb-2">Featured Image</label>
+                            @if($service->hasMedia('image'))
+                                <img src="{{ $service->getFirstMediaUrl('image') }}" 
+                                     alt="{{ $service->title }}" 
+                                     class="w-full h-48 object-cover rounded-lg border border-gray-200">
+                            @else
+                                <div class="w-full h-48 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-center">
+                                    <span class="text-gray-400 text-sm">No image uploaded</span>
+                                </div>
+                            @endif
+                        </div>
 
+                        <!-- Icon -->
+                        <div>
+                            <label class="block text-sm font-medium text-gray-500 mb-2">Icon</label>
+                            @if($service->hasMedia('icon'))
+                                <img src="{{ $service->getFirstMediaUrl('icon') }}" 
+                                     alt="{{ $service->title }} icon" 
+                                     class="w-32 h-32 object-contain rounded-lg border border-gray-200 bg-white p-2">
+                            @else
+                                <div class="w-32 h-32 bg-gray-100 rounded-lg border border-gray-200 flex items-center justify-center">
+                                    <span class="text-gray-400 text-sm">No icon</span>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other Details -->
+                <div class="grid grid-cols-2 gap-4 border-t border-gray-200 pt-4 mt-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-500">Order</label>
                         <p class="mt-1 text-sm text-gray-900">{{ $service->order }}</p>

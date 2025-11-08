@@ -67,8 +67,10 @@ class Post extends Model implements HasMedia
     {
         $this->addMediaCollection('featured_image')
             ->singleFile();
+        
+        // Para imágenes insertadas en el contenido del editor
+        $this->addMediaCollection('content_images');
     }
-
     /**
      * Get the author of this post.
      */
