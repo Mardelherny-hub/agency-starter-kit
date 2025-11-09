@@ -41,6 +41,11 @@ class BlogController extends Controller
             ->ordered()
             ->get();
 
+        seo()
+            ->title(settings('seo_blog_title', 'Blog'))
+            ->description(settings('seo_blog_description', ''))
+            ->canonical(route('blog.index'));
+
         return view('frontend.blog.index', compact('posts', 'categories', 'category'));
     }
 
@@ -65,6 +70,22 @@ class BlogController extends Controller
             ->latest('published_at')
             ->take(3)
             ->get();
+
+        // SEO
+        $featuredImage = $post->getFirstMediaUrl('featured_image');
+
+        seo()
+            ->title($post->meta_title ?: $post->title)
+            ->description($post->meta_description ?: $post->excerpt)
+            ->image($featuredImage)
+            ->canonical(route('blog.show', $post->slug))
+            ->openGraph([
+                'og:type' => 'article',
+                'article:published_time' => $post->published_at->toIso8601String(),
+                'article:modified_time' => $post->updated_at->toIso8601String(),
+                'article:author' => $post->author->name,
+            ])
+            ->schema((new \App\Support\SEO\Schema\ArticleSchema($post))->toJson());
 
         return view('frontend.blog.show', compact('post', 'relatedPosts'));
     }

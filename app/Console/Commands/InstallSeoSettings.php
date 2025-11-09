@@ -1,114 +1,51 @@
 <?php
 
-namespace Database\Seeders\Domain;
+namespace App\Console\Commands;
 
 use App\Support\Settings\Models\Setting;
-use Illuminate\Database\Seeder;
+use Illuminate\Console\Command;
 
-class SettingsSeeder extends Seeder
+class InstallSeoSettings extends Command
 {
-    public function run(): void
-    {
-        $settings = [
-            // General
-            [
-                'key' => 'site_name',
-                'value' => 'Agency Starter Kit',
-                'type' => 'string',
-                'group' => 'general',
-                'label' => 'Site Name',
-                'order' => 1,
-            ],
-            [
-                'key' => 'site_tagline',
-                'value' => 'Your Perfect Starting Point',
-                'type' => 'string',
-                'group' => 'general',
-                'label' => 'Site Tagline',
-                'order' => 2,
-            ],
-            [
-                'key' => 'site_description',
-                'value' => 'A professional starter kit for web agencies',
-                'type' => 'text',
-                'group' => 'general',
-                'label' => 'Site Description',
-                'order' => 3,
-            ],
-            // SEO
-            [
-                'key' => 'meta_title_default',
-                'value' => 'Agency Starter Kit - Professional Web Solutions',
-                'type' => 'string',
-                'group' => 'seo',
-                'label' => 'Default Meta Title',
-                'order' => 1,
-            ],
-            [
-                'key' => 'meta_description_default',
-                'value' => 'Professional starter kit for web development agencies',
-                'type' => 'text',
-                'group' => 'seo',
-                'label' => 'Default Meta Description',
-                'order' => 2,
-            ],
-            // Contact
-            [
-                'key' => 'contact_email',
-                'value' => 'contact@starter.local',
-                'type' => 'string',
-                'group' => 'contact',
-                'label' => 'Contact Email',
-                'order' => 1,
-            ],
-            [
-                'key' => 'contact_phone',
-                'value' => '+1 (555) 123-4567',
-                'type' => 'string',
-                'group' => 'contact',
-                'label' => 'Contact Phone',
-                'order' => 2,
-            ],
-            // Social
-            [
-                'key' => 'facebook_url',
-                'value' => '',
-                'type' => 'string',
-                'group' => 'social',
-                'label' => 'Facebook URL',
-                'order' => 1,
-            ],
-            [
-                'key' => 'twitter_url',
-                'value' => '',
-                'type' => 'string',
-                'group' => 'social',
-                'label' => 'Twitter URL',
-                'order' => 2,
-            ],
-            [
-                'key' => 'instagram_url',
-                'value' => '',
-                'type' => 'string',
-                'group' => 'social',
-                'label' => 'Instagram URL',
-                'order' => 3,
-            ],
-            [
-                'key' => 'linkedin_url',
-                'value' => '',
-                'type' => 'string',
-                'group' => 'social',
-                'label' => 'LinkedIn URL',
-                'order' => 4,
-            ],
+    protected $signature = 'boom:install-seo-settings';
+    
+    protected $description = 'Install SEO settings for admin panel management';
 
+    public function handle(): int
+    {
+        $this->info('Installing SEO settings...');
+
+        $settings = $this->getSeoSettings();
+        
+        $bar = $this->output->createProgressBar(count($settings));
+        $bar->start();
+
+        foreach ($settings as $setting) {
+            Setting::updateOrCreate(
+                ['key' => $setting['key']],
+                $setting
+            );
+            $bar->advance();
+        }
+
+        $bar->finish();
+        $this->newLine(2);
+        
+        $this->info('✅ SEO settings installed successfully!');
+        $this->info('Visit /admin/settings to manage your SEO configuration.');
+        
+        return Command::SUCCESS;
+    }
+
+    protected function getSeoSettings(): array
+    {
+        return [
             // ============================================
             // COMPANY INFO (para Schema.org)
             // ============================================
             [
                 'key' => 'company_name',
-                'value' => 'Boom Agency',
+                'value' => config('app.name'),
                 'type' => 'string',
                 'group' => 'company',
                 'label' => 'Company Name',
@@ -130,10 +67,6 @@ class SettingsSeeder extends Seeder
                 'label' => 'Company Logo URL',
                 'order' => 3,
             ],
-
-            // ============================================
-            // ADDRESS (para Schema.org LocalBusiness)
-            // ============================================
             [
                 'key' => 'company_street_address',
                 'value' => '',
@@ -174,13 +107,21 @@ class SettingsSeeder extends Seeder
                 'label' => 'Country',
                 'order' => 8,
             ],
+            [
+                'key' => 'company_languages',
+                'value' => 'English,Spanish',
+                'type' => 'string',
+                'group' => 'company',
+                'label' => 'Available Languages (comma separated)',
+                'order' => 9,
+            ],
 
             // ============================================
             // SEO HOMEPAGE
             // ============================================
             [
                 'key' => 'seo_home_title',
-                'value' => 'Boom Agency - Web Development & Digital Solutions',
+                'value' => config('app.name').' - Web Development & Digital Solutions',
                 'type' => 'string',
                 'group' => 'seo',
                 'label' => 'Home Page Title',
@@ -282,22 +223,6 @@ class SettingsSeeder extends Seeder
                 'label' => 'GitHub URL',
                 'order' => 6,
             ],
-
-            // ============================================
-            // LANGUAGES (para Schema.org)
-            // ============================================
-            [
-                'key' => 'company_languages',
-                'value' => 'English,Spanish',
-                'type' => 'string',
-                'group' => 'company',
-                'label' => 'Available Languages (comma separated)',
-                'order' => 9,
-            ],
         ];
-        foreach ($settings as $setting) {
-            Setting::create($setting);
-        }
-
     }
 }

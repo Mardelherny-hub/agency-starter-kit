@@ -1,5 +1,9 @@
 <x-frontend-layout>
 
+        <x-slot name="seo">
+            {!! seo()->render() !!}
+        </x-slot>
+
     {{-- Header --}}
     <section class="bg-gray-900 text-white py-16">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

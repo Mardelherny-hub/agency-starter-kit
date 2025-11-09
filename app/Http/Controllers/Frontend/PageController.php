@@ -17,6 +17,11 @@ class PageController extends Controller
             abort(404);
         }
 
+        seo()
+            ->title($page->meta_title ?: $page->title)
+            ->description($page->meta_description ?: $page->description)
+            ->canonical(route('pages.show', $page->slug));
+
         return view('frontend.pages.show', compact('page'));
     }
 }

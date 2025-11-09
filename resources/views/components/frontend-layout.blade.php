@@ -5,10 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
-    
-    <!-- SEO Meta Tags -->
-    <meta name="description" content="{{ $metaDescription ?? 'Modern web agency starter kit' }}">
+    @if(isset($seo))
+        {!! $seo !!}
+    @else
+        <title>{{ config('app.name', 'Laravel') }}</title>
+        <meta name="description" content="Modern web agency starter kit">
+    @endif
     
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">

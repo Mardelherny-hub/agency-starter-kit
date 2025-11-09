@@ -35,6 +35,12 @@ class HomeController extends Controller
             ->take(3)
             ->get();
 
+        seo()
+        ->title(settings('seo_home_title', config('app.name')), false)
+        ->description(settings('seo_home_description', ''))
+        ->canonical(route('home'))
+        ->schema((new \App\Support\SEO\Schema\OrganizationSchema())->toJson());
+
         return view('frontend.home', compact('services', 'projects', 'posts'));
     }
 }

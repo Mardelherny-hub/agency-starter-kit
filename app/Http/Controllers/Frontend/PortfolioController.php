@@ -41,6 +41,11 @@ class PortfolioController extends Controller
             ->ordered()
             ->get();
 
+        seo()
+            ->title(settings('seo_portfolio_title', 'Portfolio'))
+            ->description(settings('seo_portfolio_description', ''))
+            ->canonical(route('portfolio.index'));
+
         return view('frontend.portfolio.index', compact('projects', 'categories', 'category'));
     }
 
@@ -65,6 +70,12 @@ class PortfolioController extends Controller
             ->latest('published_at')
             ->take(3)
             ->get();
+
+        seo()
+            ->title($project->meta_title ?: $project->title)
+            ->description($project->meta_description ?: $project->description)
+            ->image($project->getFirstMediaUrl('featured_image'))
+            ->canonical(route('portfolio.show', $project->slug));
 
         return view('frontend.portfolio.show', compact('project', 'relatedProjects'));
     }

@@ -14,6 +14,11 @@ class ContactController extends Controller
      */
     public function index()
     {
+        seo()
+            ->title(settings('seo_contact_title', 'Contact'))
+            ->description(settings('seo_contact_description', ''))
+            ->canonical(route('contact'));
+            
         return view('frontend.contact');
     }
 

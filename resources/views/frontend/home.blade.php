@@ -1,5 +1,9 @@
 <x-frontend-layout >
 
+        <x-slot name="seo">
+            {!! seo()->render() !!}
+        </x-slot>
+
     {{-- Hero Section --}}
     <section class="bg-gradient-to-br from-gray-900 to-gray-800 text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 lg:py-32">

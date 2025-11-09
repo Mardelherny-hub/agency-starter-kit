@@ -16,6 +16,11 @@ class ServiceController extends Controller
             ->ordered()
             ->get();
 
+        seo()
+            ->title(settings('seo_services_title', 'Services'))
+            ->description(settings('seo_services_description', ''))
+            ->canonical(route('services.index'));
+
         return view('frontend.services.index', compact('services'));
     }
 
@@ -35,6 +40,12 @@ class ServiceController extends Controller
             ->ordered()
             ->take(3)
             ->get();
+
+        seo()
+            ->title($service->meta_title ?: $service->title)
+            ->description($service->meta_description ?: $service->description)
+            ->image($service->getFirstMediaUrl('featured_image'))
+            ->canonical(route('services.show', $service->slug));
 
         return view('frontend.services.show', compact('service', 'otherServices'));
     }
