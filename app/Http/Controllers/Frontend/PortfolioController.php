@@ -14,7 +14,7 @@ class PortfolioController extends Controller
     public function index()
     {
         $projects = Project::published()
-            ->with('category')
+            ->with(['category:id,name,slug'])
             ->latest('published_at')
             ->paginate(12);
 
@@ -22,6 +22,11 @@ class PortfolioController extends Controller
             ->withCount('publishedProjects')
             ->ordered()
             ->get();
+
+        seo()
+            ->title(settings('seo_portfolio_title', 'Portfolio'))
+            ->description(settings('seo_portfolio_description', ''))
+            ->canonical(route('portfolio.index'));
 
         return view('frontend.portfolio.index', compact('projects', 'categories'));
     }
@@ -32,7 +37,7 @@ class PortfolioController extends Controller
     public function category(ProjectCategory $category)
     {
         $projects = $category->publishedProjects()
-            ->with('category')
+            ->with(['category:id,name,slug'])
             ->latest('published_at')
             ->paginate(12);
 
@@ -54,19 +59,17 @@ class PortfolioController extends Controller
      */
     public function show(Project $project)
     {
-        // Verificar que esté publicado
         if (!$project->published_at || $project->published_at->isFuture()) {
             abort(404);
         }
 
-        // Incrementar vistas
         $project->incrementViews();
 
-        // Proyectos relacionados (misma categoría)
+        // Related projects - OPTIMIZADO
         $relatedProjects = Project::published()
             ->where('id', '!=', $project->id)
             ->where('category_id', $project->category_id)
-            ->with('category')
+            ->with(['category:id,name,slug'])
             ->latest('published_at')
             ->take(3)
             ->get();

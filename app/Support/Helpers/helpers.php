@@ -1,23 +1,20 @@
 <?php
 
 use App\Support\Features\FeatureManager;
-use App\Support\Settings\SettingsService;
 
 if (! function_exists('settings')) {
     /**
-     * Get a setting value or all settings.
-     *
-     * @param  mixed  $default
-     * @return mixed
+     * Get setting value with cache support.
      */
-    function settings(?string $key = null, $default = null)
+    function settings(string $key, mixed $default = null): mixed
     {
-        $service = app(SettingsService::class);
-        if ($key === null) {
-            return $service->all();
+        static $settingsCache = null;
+
+        if ($settingsCache === null) {
+            $settingsCache = app(\App\Domain\Settings\Services\SettingsCacheService::class);
         }
 
-        return $service->get($key, $default);
+        return $settingsCache->get($key, $default);
     }
 }
 if (! function_exists('feature')) {

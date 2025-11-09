@@ -51,6 +51,9 @@ class ProjectController extends Controller
             }
         }
 
+         // Limpiar cache
+
+
         return redirect()
             ->route('admin.projects.index')
             ->with('success', 'Project created successfully.');
@@ -81,6 +84,9 @@ class ProjectController extends Controller
             }
         }
 
+         // Limpiar cache
+
+
         return redirect()
             ->route('admin.projects.index')
             ->with('success', 'Project updated successfully.');
@@ -90,6 +96,9 @@ class ProjectController extends Controller
     {
         $project = $this->projectCrudService->findOrFail($id);
         $this->projectCrudService->delete($project);
+
+         // Limpiar cache
+
         return redirect()->route('admin.projects.index')->with('success', 'Project deleted successfully.');
     }
 
@@ -107,6 +116,8 @@ class ProjectController extends Controller
             return redirect()->back()->with('success', 'Image deleted successfully.');
         }
         
+         // Limpiar cache
+
         return redirect()->back()->with('error', 'Image not found.');
     }
 }

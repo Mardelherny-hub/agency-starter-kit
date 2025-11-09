@@ -17,7 +17,7 @@ class ArticleSchema extends SchemaBuilder
 
     public function build(): array
     {
-        $author = $this->post->user;
+        $author = $this->post->author;
         
         $data = [
             'headline' => $this->post->title,

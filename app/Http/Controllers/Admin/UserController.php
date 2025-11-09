@@ -33,6 +33,8 @@ class UserController extends Controller
         $role = $request->input('role');
         
         $this->userCrudService->createWithRole($data, $role);
+         // Limpiar cache
+
         return redirect()->route('admin.users.index')->with('success', 'User created successfully.');
     }
 
@@ -55,6 +57,8 @@ class UserController extends Controller
         $role = $request->input('role');
         
         $this->userCrudService->updateWithRole($user, $data, $role);
+         // Limpiar cache
+
         return redirect()->route('admin.users.index')->with('success', 'User updated successfully.');
     }
 
@@ -62,6 +66,8 @@ class UserController extends Controller
     {
         $user = $this->userCrudService->findOrFail($id);
         $this->userCrudService->delete($user);
+         // Limpiar cache
+
         return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
     }
 }

@@ -28,9 +28,11 @@
                                     @if($post->getFirstMediaUrl('featured_image'))
                                     <div class="md:w-1/3">
                                         <a href="{{ route('blog.show', $post->slug) }}">
-                                            <img src="{{ $post->getFirstMediaUrl('featured_image') }}" 
-                                                 alt="{{ $post->title }}"
-                                                 class="w-full h-48 md:h-full object-cover">
+                                            <x-lazy-image 
+                                                :src="$post->getFirstMediaUrl('featured_image')" 
+                                                :alt="$post->title"
+                                                class="w-full h-48 object-cover rounded-lg"
+                                            />
                                         </a>
                                     </div>
                                     @endif

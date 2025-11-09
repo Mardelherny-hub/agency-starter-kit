@@ -3,7 +3,7 @@
 
     <div class="max-w-4xl">
         <div class="bg-white rounded-lg shadow p-6">
-            <form method="POST" action="{{ route('admin.projects.update', $project->id) }}">
+            <form method="POST" action="{{ route('admin.projects.update', $project->id) }}"" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
 
@@ -127,15 +127,17 @@
                         Cancel
                     </a>
 
-                    <form method="POST" action="{{ route('admin.projects.destroy', $project->id) }}" onsubmit="return confirm('Are you sure?')" class="ml-auto">
+                    
+                </div>
+            </form>
+
+            <form method="POST" action="{{ route('admin.projects.destroy', $project->id) }}" onsubmit="return confirm('Are you sure?')" class="mt-4">
                         @csrf
                         @method('DELETE')
                         <x-admin.button type="submit" variant="danger">
                             Delete Project
                         </x-admin.button>
                     </form>
-                </div>
-            </form>
         </div>
     </div>
 </x-admin-layout>

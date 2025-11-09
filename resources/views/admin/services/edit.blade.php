@@ -3,8 +3,8 @@
 
     <div class="max-w-4xl">
         <div class="bg-white rounded-lg shadow p-6">
-            <form method="POST" action="{{ route('admin.services.update', $service->id) }}">
-                @csrf
+            <form method="POST" action="{{ route('admin.services.update', $service->id) }}" enctype="multipart/form-data">
+                    @csrf
                 @method('PUT')
 
                 <x-admin.form-input
@@ -85,15 +85,16 @@
                         Cancel
                     </a>
 
-                    <form method="POST" action="{{ route('admin.services.destroy', $service->id) }}" onsubmit="return confirm('Are you sure you want to delete this service?')" class="ml-auto">
+                    
+                </div>
+            </form>
+            <form method="POST" action="{{ route('admin.services.destroy', $service->id) }}" onsubmit="return confirm('Are you sure you want to delete this service?')" class="ml-auto">
                         @csrf
                         @method('DELETE')
                         <x-admin.button type="submit" variant="danger">
                             Delete Service
                         </x-admin.button>
                     </form>
-                </div>
-            </form>
         </div>
     </div>
 </x-admin-layout>

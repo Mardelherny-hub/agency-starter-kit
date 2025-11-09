@@ -6,6 +6,7 @@ use App\Domain\Blog\Services\PostCrudService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StorePostRequest;
 use App\Http\Requests\Admin\UpdatePostRequest;
+
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -37,15 +38,14 @@ class PostController extends Controller
     public function store(StorePostRequest $request)
     {
         $data = $request->validated();
-        $data['user_id'] = auth()->id();
-        
         $post = $this->postCrudService->create($data);
-        
-        // Handle featured image upload
+
         if ($request->hasFile('featured_image')) {
             $post->addMediaFromRequest('featured_image')->toMediaCollection('featured_image');
         }
-        
+
+         // Limpiar cache
+
         return redirect()->route('admin.posts.index')->with('success', 'Post created successfully.');
     }
 
@@ -65,14 +65,16 @@ class PostController extends Controller
     public function update(UpdatePostRequest $request, int $id)
     {
         $post = $this->postCrudService->findOrFail($id);
-        $this->postCrudService->update($post, $request->validated());
-        
-        // Handle featured image upload
+        $data = $request->validated();
+        $this->postCrudService->update($post, $data);
+
         if ($request->hasFile('featured_image')) {
             $post->clearMediaCollection('featured_image');
             $post->addMediaFromRequest('featured_image')->toMediaCollection('featured_image');
         }
-        
+
+         // Limpiar cache
+
         return redirect()->route('admin.posts.index')->with('success', 'Post updated successfully.');
     }
 
@@ -80,6 +82,9 @@ class PostController extends Controller
     {
         $post = $this->postCrudService->findOrFail($id);
         $this->postCrudService->delete($post);
+
+         // Limpiar cache
+
         return redirect()->route('admin.posts.index')->with('success', 'Post deleted successfully.');
     }
 

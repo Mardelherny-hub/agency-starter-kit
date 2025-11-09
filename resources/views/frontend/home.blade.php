@@ -89,9 +89,11 @@
                    class="group block bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-lg transition">
                     @if($project->getFirstMediaUrl('featured_image'))
                         <div class="aspect-w-16 aspect-h-9 bg-gray-200 overflow-hidden">
-                            <img src="{{ $project->getFirstMediaUrl('featured_image') }}" 
-                                 alt="{{ $project->title }}"
-                                 class="w-full h-64 object-cover group-hover:scale-105 transition duration-300">
+                            <x-lazy-image 
+                                :src="$project->getFirstMediaUrl('featured_image')" 
+                                :alt="$project->title"
+                                class="w-full h-48 object-cover"
+                            />
                         </div>
                     @else
                         <div class="w-full h-64 bg-gray-200 flex items-center justify-center">
@@ -138,9 +140,11 @@
                 <article class="bg-white border border-gray-200 rounded-lg overflow-hidden hover:shadow-lg transition">
                     @if($post->getFirstMediaUrl('featured_image'))
                         <a href="{{ route('blog.show', $post->slug) }}">
-                            <img src="{{ $post->getFirstMediaUrl('featured_image') }}" 
-                                 alt="{{ $post->title }}"
-                                 class="w-full h-48 object-cover">
+                            <x-lazy-image 
+                                :src="$post->getFirstMediaUrl('featured_image')" 
+                                :alt="$post->title"
+                                class="w-full h-48 object-cover"
+                            />
                         </a>
                     @endif
                     

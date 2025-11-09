@@ -14,32 +14,35 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // Featured services
+        // Featured services - NO CAMBIOS (Service no tiene relaciones cargadas)
         $services = Service::published()
             ->featured()
             ->ordered()
             ->take(6)
             ->get();
 
-        // Recent projects
+        // Recent projects - OPTIMIZADO
         $projects = Project::published()
-            ->with('category')
+            ->with(['category:id,name,slug']) // Solo campos necesarios
             ->latest('published_at')
             ->take(6)
             ->get();
 
-        // Recent blog posts
+        // Recent blog posts - OPTIMIZADO
         $posts = Post::published()
-            ->with(['author', 'category'])
+            ->with([
+                'author:id,name', // Solo ID y nombre del autor
+                'category:id,name,slug'
+            ])
             ->latest('published_at')
             ->take(3)
             ->get();
 
         seo()
-        ->title(settings('seo_home_title', config('app.name')), false)
-        ->description(settings('seo_home_description', ''))
-        ->canonical(route('home'))
-        ->schema((new \App\Support\SEO\Schema\OrganizationSchema())->toJson());
+            ->title(settings('seo_home_title', config('app.name')), false)
+            ->description(settings('seo_home_description', ''))
+            ->canonical(route('home'))
+            ->schema((new \App\Support\SEO\Schema\OrganizationSchema())->toJson());
 
         return view('frontend.home', compact('services', 'projects', 'posts'));
     }

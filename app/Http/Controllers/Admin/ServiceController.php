@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\StoreServiceRequest;
 use App\Http\Requests\Admin\UpdateServiceRequest;
 use Illuminate\Http\Request;
 
+
 class ServiceController extends Controller
 {
     public function __construct(
@@ -47,6 +48,7 @@ class ServiceController extends Controller
         if ($request->hasFile('icon')) {
             $service->addMediaFromRequest('icon')->toMediaCollection('icon');
         }
+         // Limpiar cache
 
         return redirect()
             ->route('admin.services.index')
@@ -69,18 +71,24 @@ class ServiceController extends Controller
 
     public function update(UpdateServiceRequest $request, int $id)
     {
+       
+
         $service = $this->serviceCrudService->findOrFail($id);
         $this->serviceCrudService->update($service, $request->validated());
         
-        // Handle image upload
+        // Handle image upload - SIN CLEAR
         if ($request->hasFile('image')) {
-            $service->clearMediaCollection('image');
+            // Eliminar imagen anterior si existe
+            $service->getMedia('image')->each->delete();
+            // Agregar nueva
             $service->addMediaFromRequest('image')->toMediaCollection('image');
         }
         
-        // Handle icon upload
+        // Handle icon upload - SIN CLEAR
         if ($request->hasFile('icon')) {
-            $service->clearMediaCollection('icon');
+            // Eliminar icono anterior si existe
+            $service->getMedia('icon')->each->delete();
+            // Agregar nuevo
             $service->addMediaFromRequest('icon')->toMediaCollection('icon');
         }
 
@@ -93,6 +101,7 @@ class ServiceController extends Controller
     {
         $service = $this->serviceCrudService->findOrFail($id);
         $this->serviceCrudService->delete($service);
+         // Limpiar cache
 
         return redirect()
             ->route('admin.services.index')

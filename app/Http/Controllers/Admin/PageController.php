@@ -30,6 +30,8 @@ class PageController extends Controller
     public function store(StorePageRequest $request)
     {
         $this->pageCrudService->create($request->validated());
+         // Limpiar cache
+
         return redirect()->route('admin.pages.index')->with('success', 'Page created successfully.');
     }
 
@@ -49,6 +51,8 @@ class PageController extends Controller
     {
         $page = $this->pageCrudService->findOrFail($id);
         $this->pageCrudService->update($page, $request->validated());
+         // Limpiar cache
+
         return redirect()->route('admin.pages.index')->with('success', 'Page updated successfully.');
     }
 
@@ -56,6 +60,8 @@ class PageController extends Controller
     {
         $page = $this->pageCrudService->findOrFail($id);
         $this->pageCrudService->delete($page);
+         // Limpiar cache
+
         return redirect()->route('admin.pages.index')->with('success', 'Page deleted successfully.');
     }
 }

@@ -6,6 +6,7 @@ use App\Domain\Contact\Services\ContactMessageCrudService;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+
 class ContactMessageController extends Controller
 {
     public function __construct(
@@ -31,6 +32,8 @@ class ContactMessageController extends Controller
     {
         $message = $this->messageCrudService->findOrFail($id);
         $this->messageCrudService->delete($message);
+         // Limpiar cache
+
         return redirect()->route('admin.messages.index')->with('success', 'Message deleted successfully.');
     }
 }

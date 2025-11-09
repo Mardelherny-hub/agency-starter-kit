@@ -39,9 +39,11 @@
                     <article class="group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300">
                         @if($project->getFirstMediaUrl('featured_image'))
                         <a href="{{ route('portfolio.show', $project->slug) }}" class="block overflow-hidden">
-                            <img src="{{ $project->getFirstMediaUrl('featured_image') }}" 
-                                 alt="{{ $project->title }}"
-                                 class="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-300">
+                            <x-lazy-image 
+                                :src="$project->getFirstMediaUrl('featured_image')" 
+                                :alt="$project->title"
+                                class="w-full h-64 object-cover rounded-lg"
+                            />
                         </a>
                         @else
                         <div class="w-full h-64 bg-gray-200 flex items-center justify-center">

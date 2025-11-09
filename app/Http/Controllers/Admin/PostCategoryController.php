@@ -29,6 +29,8 @@ class PostCategoryController extends Controller
     public function store(StorePostCategoryRequest $request)
     {
         $this->categoryCrudService->create($request->validated());
+         // Limpiar cache
+
         return redirect()->route('admin.post-categories.index')->with('success', 'Category created successfully.');
     }
 
@@ -48,6 +50,8 @@ class PostCategoryController extends Controller
     {
         $category = $this->categoryCrudService->findOrFail($id);
         $this->categoryCrudService->update($category, $request->validated());
+         // Limpiar cache
+
         return redirect()->route('admin.post-categories.index')->with('success', 'Category updated successfully.');
     }
 
@@ -55,6 +59,8 @@ class PostCategoryController extends Controller
     {
         $category = $this->categoryCrudService->findOrFail($id);
         $this->categoryCrudService->delete($category);
+         // Limpiar cache
+
         return redirect()->route('admin.post-categories.index')->with('success', 'Category deleted successfully.');
     }
 }

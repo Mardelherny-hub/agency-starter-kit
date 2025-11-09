@@ -8,13 +8,10 @@ use App\Domain\Blog\Models\PostCategory;
 
 class BlogController extends Controller
 {
-    /**
-     * Display blog listing.
-     */
     public function index()
     {
         $posts = Post::published()
-            ->with(['author', 'category'])
+            ->with(['author:id,name', 'category:id,name,slug'])
             ->latest('published_at')
             ->paginate(12);
 
@@ -23,16 +20,18 @@ class BlogController extends Controller
             ->ordered()
             ->get();
 
+        seo()
+            ->title(settings('seo_blog_title', 'Blog'))
+            ->description(settings('seo_blog_description', ''))
+            ->canonical(route('blog.index'));
+
         return view('frontend.blog.index', compact('posts', 'categories'));
     }
 
-    /**
-     * Display posts by category.
-     */
     public function category(PostCategory $category)
     {
         $posts = $category->publishedPosts()
-            ->with(['author', 'category'])
+            ->with(['author:id,name', 'category:id,name,slug'])
             ->latest('published_at')
             ->paginate(12);
 
@@ -49,29 +48,25 @@ class BlogController extends Controller
         return view('frontend.blog.index', compact('posts', 'categories', 'category'));
     }
 
-    /**
-     * Display single post.
-     */
     public function show(Post $post)
     {
-        // Verificar que esté publicado
         if (!$post->published_at || $post->published_at->isFuture()) {
             abort(404);
         }
 
-        // Incrementar vistas
+        // CRÍTICO: Cargar relaciones antes de usarlas
+        $post->loadMissing(['author', 'category']);
+
         $post->incrementViews();
 
-        // Posts relacionados (misma categoría)
         $relatedPosts = Post::published()
             ->where('id', '!=', $post->id)
             ->where('category_id', $post->category_id)
-            ->with(['author', 'category'])
+            ->with(['author:id,name', 'category:id,name,slug'])
             ->latest('published_at')
             ->take(3)
             ->get();
 
-        // SEO
         $featuredImage = $post->getFirstMediaUrl('featured_image');
 
         seo()

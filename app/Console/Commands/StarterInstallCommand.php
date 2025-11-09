@@ -11,9 +11,9 @@ class StarterInstallCommand extends Command
      * The name and signature of the console command.
      */
     protected $signature = 'starter:install 
-{--fresh : Fresh installation (drops all tables)}
-{--seed : Seed the database}
-{--force : Force the operation to run}';
+    {--fresh : Fresh installation (drops all tables)}
+    {--seed : Seed the database}
+    {--force : Force the operation to run}';
 
     /**
      * The console command description.
