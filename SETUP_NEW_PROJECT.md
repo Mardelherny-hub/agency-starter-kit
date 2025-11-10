@@ -44,7 +44,7 @@ mysql --version
 ### Paso 1: Clonar el repositorio
 ```bash
 # Clonar el starter kit en una carpeta con el nombre del proyecto
-git clone https://github.com/boom-studio/boom-starter-kit.git proyecto-cliente
+git clone https://github.com/Mardelherny-hub/agency-starter-kit.git proyecto-cliente
 
 # Entrar al directorio
 cd proyecto-cliente
@@ -58,7 +58,7 @@ cd proyecto-cliente
 git remote remove origin
 
 # Agregar el remote del nuevo proyecto (crear repo primero en GitHub/GitLab)
-git remote add origin https://github.com/boom-studio/proyecto-cliente.git
+git remote add origin https://github.com/studio/proyecto-cliente.git
 
 # Verificar
 git remote -v
@@ -167,12 +167,12 @@ php artisan starter:install --seed
 ✅ Caches cleared
 
 📧 Default Admin Credentials:
-┌──────────┬────────────────────┐
-│ Field    │ Value              │
-├──────────┼────────────────────┤
-│ Email    │ admin@boom.local   │
-│ Password │ password           │
-└──────────┴────────────────────┘
+┌──────────┬────────────────────────┐
+│ Field    │ Value                  │
+├──────────┼────────────────────────┤
+│ Email    │ admin@starter.local    │
+│ Password │ password               │
+└──────────┴────────────────────────┘
 
 ⚠️ Please change these credentials after first login!
 
@@ -196,7 +196,7 @@ npm run dev
 **✅ Verificar instalación:**
 - Frontend: http://localhost:8000
 - Admin: http://localhost:8000/admin
-  - Email: `admin@boom.local`
+  - Email: `admin@starter.local`
   - Password: `password`
 
 ---
@@ -1791,12 +1791,12 @@ MAIL_ENCRYPTION=tls
 - **Alpine.js:** https://alpinejs.dev
 - **Livewire:** https://livewire.laravel.com
 
-### Soporte Boom Studio
+### Soporte Estudio Alcalde
 ```
 👨‍💻 Desarrollador: Víctor H. Alcalde
-🏢 Agencia: Boom Studio
-📧 Email: victor@boom.studio
-🌐 Web: https://boom.studio
+🏢 Agencia: Estudio alcalde
+📧 Email: alcaldevictor1@gmail.com
+🌐 Web: https://estudioalcalde.net
 📂 Docs: /docs/ en el proyecto
 ```
 
