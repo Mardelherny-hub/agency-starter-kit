@@ -1,4 +1,4 @@
-# 🚀 Boom Starter Kit v1.1 - Laravel 12
+# 🚀 Starter Kit v1.1 - Laravel 12
 
 > **Base empresarial completa** para desarrollo rápido de sitios web profesionales para agencias.
 
@@ -25,7 +25,7 @@
 
 ## 🎯 Descripción
 
-**Boom Starter Kit v1.1** es una base empresarial completa construida sobre Laravel 12.x, diseñada específicamente para **agencias web** que necesitan:
+**Starter Kit v1.1** es una base empresarial completa construida sobre Laravel 12.x, diseñada específicamente para **agencias web** que necesitan:
 
 ✅ **Acelerar desarrollo** - 50% menos tiempo por proyecto  
 ✅ **Mantener calidad** - Arquitectura DDD probada  
@@ -91,7 +91,7 @@ Testing:  Pest 3.x + PHPStan
 
 ### 📁 Estructura del Proyecto
 ```
-boom-starter-kit/
+agency-starter-kit/
 ├── 📂 app/
 │   ├── 📂 Domain/              # Lógica de negocio (DDD)
 │   │   ├── 📂 Common/          # Código compartido
@@ -176,7 +176,7 @@ boom-starter-kit/
 ### ⚡ Setup en 5 minutos
 ```bash
 # 1. Clonar repositorio
-git clone https://github.com/boom-studio/boom-starter-kit.git proyecto-cliente
+git clone https://github.com/Mardelherny-hub/agency-starter-kit.git proyecto-cliente
 cd proyecto-cliente
 
 # 2. Instalar dependencias
@@ -203,7 +203,7 @@ php artisan serve
 **🎉 Listo! Visita:**
 - **Frontend:** http://localhost:8000
 - **Admin:** http://localhost:8000/admin
-  - Email: `admin@boom.local`
+  - Email: `admin@starter.local`
   - Password: `password`
 
 **⚠️ Cambiar credenciales inmediatamente en producción**
@@ -557,7 +557,7 @@ RESPONSE_CACHE_LIFETIME=600
 
 ## 🎉 Créditos
 
-Construido con ❤️ por **[Boom Studio](https://boom.studio)**
+Construido con ❤️ por **[Estudio Alcalde](https://estudioalclade.net)**
 
 ### 🙏 Agradecimientos
 
@@ -579,10 +579,10 @@ Este proyecto está bajo la Licencia MIT - ver [LICENSE](LICENSE) para detalles.
 ## 📞 Contacto y Soporte
 ```
 👨‍💻 Desarrollador: Víctor H. Alcalde
-🏢 Agencia: Boom Studio
-📧 Email: victor@boom.studio
-🌐 Web: https://boom.studio
-📂 Repo: https://github.com/boom-studio/boom-starter-kit
+🏢 Agencia: Estudio Alclade
+📧 Email: alcaldevictor1@gmail.com
+🌐 Web: https://estudioalclade.net
+📂 Repo: https://github.com/Mardelherny-hub/agency-starter-kit.git
 ```
 
 ---
@@ -591,7 +591,7 @@ Este proyecto está bajo la Licencia MIT - ver [LICENSE](LICENSE) para detalles.
 
 ### ¿Cuánto tiempo toma implementar un proyecto?
 
-Con el Boom Starter Kit, un sitio corporativo completo se desarrolla en **5-10 días** vs 15-20 días desde cero.
+Con el Agency Starter Kit, un sitio corporativo completo se desarrolla en **5-10 días** vs 15-20 días desde cero.
 
 ### ¿Puedo usar esto en proyectos comerciales?
 
@@ -615,7 +615,7 @@ Soporte comunitario vía GitHub Issues. Soporte premium disponible para agencias
 
 **🚀 ¿Listo para acelerar tu desarrollo?**
 
-[⭐ Star este proyecto](https://github.com/boom-studio/boom-starter-kit) • [📖 Documentación](SETUP_NEW_PROJECT.md) • [🐛 Reportar Bug](https://github.com/boom-studio/boom-starter-kit/issues)
+[⭐ Star este proyecto](https://github.com/Mardelherny-hub/agency-starter-kit.git) • [📖 Documentación](SETUP_NEW_PROJECT.md) • 
 
 **Construido con excelencia para agencias que valoran la calidad** ✨
 
